@@ -1,0 +1,786 @@
+<!-- 
+Dienst-Filter v1.0
+* by Max Schneider
+* 03.11.22
+* maxschneidercodes@gmail.com
+-->
+
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .vc_row {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .vc_column_container>.vc_column-inner {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .container {
+            color: #333;
+            background-color: #A0151F;
+            padding: 2rem;
+        }
+
+        .flex {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .flex-item {
+            margin-bottom: 1rem;
+        }
+
+        #site-search {
+            width: 43 0px;
+            margin: 0rem;
+            padding: .4rem .6rem
+        }
+
+        .title-head {
+            color: #fff;
+            margin-top: 0rem;
+            font-size: 2.2rem;
+        }
+
+        .title {
+            color: #333;
+            font-size: 1.9rem;
+            font-weight: bold;
+            margin-top: 0rem;
+            margin-bottom: 0rem;
+        }
+
+        .subtitle {
+            color: #333;
+            font-size: 1.2rem;
+            margin-top: .2rem;
+            margin-bottom: 0rem;
+        }
+
+        .subtitle-head {
+            color: #fff;
+            font-size: 1.3rem;
+        }
+
+        .text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            margin-bottom: 0rem;
+        }
+
+        .button {
+            all: unset;
+            cursor: pointer;
+            color: #fff;
+            padding: .4rem .6rem;
+            margin-right: .5rem;
+            margin-bottom: .5rem;
+            font-size: .8rem;
+        }
+
+        .button-send {
+            all: unset;
+            cursor: pointer;
+            color: #fff;
+            padding: .4rem .8rem;
+            font-size: 1rem;
+        }
+
+        .button-send:hover {
+            background-color: #a9a9a9;
+        }
+
+        .filter-reset {
+            all: unset;
+            cursor: pointer;
+            color: #fff;
+            background-color: rgb(123, 123, 123);
+            padding: .4rem .6rem;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1rem;
+            width: 140px;
+        }
+
+        .filter-Button {
+            all: unset;
+            cursor: pointer;
+            color: #fff;
+            background-color: #333;
+            padding: .4rem .8rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            width: 130px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #a9a9a9;
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: .8rem;
+            color: #fff;
+            background-color: #A0151F;
+            padding: .3rem .5rem;
+            margin-top: .5rem;
+            margin-right: .5rem;
+            margin-bottom: 0;
+        }
+
+        .is-button {
+            color: #333;
+            background-color: rgba(222, 222, 222, 0.584);
+        }
+
+        .is-danger {
+            background-color: #A0151F;
+        }
+
+        .is-info {
+            background-color: #1556a0;
+        }
+
+        .is-warning {
+            background-color: #15a02e;
+        }
+
+        .is-success {
+            background-color: #6d15a0;
+        }
+
+        .is-dark {
+            background-color: #0f7274;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            max-width: 335px;
+            height: 100%;
+            margin-right: 1rem;
+            padding: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        hr {
+            background-color: #9b9a9a;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .filterMainContainer {
+            display: inline-flex;
+        }
+
+        .filterContainerFlex {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        #filterContainer1,
+        #filterContainer2,
+        #filterContainer3 {
+            width: 300px;
+        }
+
+        #cardsDiv {
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 650px) {
+            .filterMainContainer {
+                display: inline;
+            }
+
+            #filterContainer1,
+            #filterContainer2,
+            #filterContainer3 {
+                width: 100%;
+            }
+
+            .card {
+                max-width: 100%;
+                margin-top: 1rem;
+                margin-right: 0rem;
+            }
+        }
+
+        .read-more__link {
+            font-weight: 700;
+            margin-top: 1em;
+        }
+
+        .read-more.is-inline,
+        .read-more.is-inline p,
+        .read-more.is-inline+span {
+            display: inline;
+
+        }
+
+        .read-more.is-inline+span {
+            margin-left: 0.25em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="title-head ">
+            Dienste
+        </h2>
+        <p class="subtitle-head ">
+            In der folgenden Übersicht findest du die Dienste der Gemeinde. <br />
+            Mithilfe der Filter und des Suchfelds kannst du die angezeigten Dienste eingrenzen. </p>
+    </div>
+    <br />
+    <div class="flex">
+        <button id="showFilter" class="filter-Button flex-item">Filter einblenden</button>
+
+        <input class="flex-item" placeholder="Dienst suchen.." type="search" id="site-search">
+    </div>
+
+    <div id="filterDiv"></div>
+
+    <div id="cardsDiv" class="card-container"></div>
+    <p id="errorMsg">Huch! Sieht aus als ob die suche zu eng gefasst ist. Bitte entferne einige Filter.</p>
+</body>
+
+<script>
+    const filters = {
+        filter1: [],
+        filter2: [],
+        filter3: [],
+        notFound: 0,
+        gabenFilter: {
+            id: 1,
+            title: "Gaben und Fähigkeiten",
+            style: "is-danger",
+            color: "#A0151F",
+            filters: [
+                "Organisation",
+                "Musik",
+                "Handwerk",
+                "Kreativität",
+                "Geisterunterscheidung",
+                "Ermutigung",
+                "Evangelisation/Mission",
+                "Glaube",
+                "Geben",
+                "Helfen",
+                "Gastfreundschaft",
+                "Gebet",
+                "Erkenntnis",
+                "Leitung",
+                "Barmherzigkeit",
+                "Prophetie",
+                "Hirtendienst",
+                "Lehren",
+                "Weisheit",
+            ],
+        },
+        personenFilter: {
+            id: 2,
+            title: "Personengruppen",
+            style: "is-info",
+            color: "#1556a0",
+            filters: [
+                "Kinder",
+                "Randgruppen",
+                "Teenager_Jugendliche",
+                "Erwachsene",
+                "Senioren",
+                "Singles",
+                "Verheiratete_Familien",
+                "Frauen",
+                "Männer",
+                "Kranke_Behinderte",
+                "Gesellschaftlich_Benachteiligte",
+                "Unerreichte",
+                "Glaubensinteressierte",
+                "Neubekehrte",
+                "Neue_Mitglieder",
+            ],
+        },
+        ortFilter: {
+            id: 3,
+            title: "Ort des Dienstes",
+            style: "is-dark",
+            color: "#0f7274",
+            filters: ["Gemeinde/Köln", "Zuhause/Online"],
+        },
+        createShowFilterButton() {
+            let showFilter = false;
+            const html = document.getElementById("showFilter");
+            const filters = document.getElementById("filterDiv");
+
+
+            html.addEventListener("click", function () {
+                if (showFilter) {
+                    showFilter = false;
+                    html.innerHTML = "Filter ausblenden";
+                    filters.style.display = "inline-block";
+                } else {
+                    showFilter = true;
+                    html.innerHTML = "Filter einblenden";
+                    filters.style.display = "none";
+                }
+            });
+
+            if (showFilter) {
+                filters.style.display = "inline-block";
+                showFilter = false;
+            } else {
+                filters.style.display = "none";
+                showFilter = true;
+            }
+        },
+        createFilter(filter) {
+            let filterHTML = "";
+            filterHTML += `<div class="filterMainContainer">`;
+            filterHTML += `<div class="filterContainerFlex">`;
+            filterHTML += `<p class="text">${filter.title}</p> <br/>`;
+            filterHTML += `<div id="filterContainer${filter.id}" class="button-container">`;
+            filter.filters.forEach((item) => {
+                filterHTML =
+                    filterHTML +
+                    `<button onClick={data.filterClicked("${item}")} id="${item}" class="button ${filter.style}">${item}</button>`;
+            });
+            filterHTML += `</div>`;
+            filterHTML += `</div>`;
+            filterHTML += `</div> `;
+            return filterHTML;
+        },
+        resetFilter(filterItem) {
+            filterItem.filters.forEach(f => {
+                let filterHTML = document.getElementById(f);
+                filterHTML.style.backgroundColor = filterItem.color
+            })
+        },
+        resetFilters() {
+            filters.resetFilter(filters.gabenFilter)
+            filters.resetFilter(filters.personenFilter)
+            filters.resetFilter(filters.ortFilter)
+
+            filters.filter1 = []
+            filters.filter2 = []
+            filters.filter3 = []
+
+            data.filterData(data.dienste);
+        },
+        createFilterHTML() {
+            const html = document.getElementById("filterDiv");
+
+            html.innerHTML += this.createFilter(filters.gabenFilter);
+            html.innerHTML += this.createFilter(filters.personenFilter);
+            html.innerHTML += this.createFilter(filters.ortFilter);
+
+            html.innerHTML += `<button onClick={filters.resetFilters()} class="filter-reset">Filter zurücksetzen</button>`
+        },
+        searchDienste() {
+            let searchInput = document.getElementById('site-search');
+
+            searchInput.addEventListener('keyup', function (event) {
+                let searchQuery = event.target.value.toLowerCase();
+
+                data.dienste.forEach(item => {
+                    let card = document.getElementById("card" + item.id)
+                    if (card.textContent.toLocaleLowerCase().includes(searchQuery)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                })
+            })
+        }
+    };
+
+    filters.searchDienste();
+    filters.createShowFilterButton();
+    filters.createFilterHTML();
+
+    const data = {
+        dienste: [
+            {
+                id: 1,
+                title: "Nachwuchsarbeit",
+                subtitle: "Kinderstundenmitarbeiter",
+                tags1: ["Kreativität", "Gebet", "Lehren", "Hirtendienst"],
+                tags2: [
+                    "Kinder",
+                    "Glaubensinteressierte",
+                    "Neubekehrte",
+                    "Unerreichte",
+                    "Gesellschaftlich_Benachteiligte",
+                ],
+                tags3: ["Gemeinde/Köln"],
+                zeit: "2-4 Stunden pro Woche",
+                beschreibung:
+                    "Unser zentrales Anliegen ist es, den Kindern das Evangelium zu vermitteln. Gott liebt jedes Kind und möchte eine Beziehung zu jedem Kind haben.Wir haben den Wunsch, dass die Kinder die frohe Botschaft, dass Jesus für sie gestorben ist und den Tod besiegt hat, verstehen und durch den Glauben an ihn ein verbindliches Leben mit ihm führen. Dieses missionarische Anliegen durchzieht jeden Bereich unserer Arbeit mit den Kindern.",
+                kontakt: "Simeon Redinger",
+                email: "s.redinger@freikirche.koeln",
+            },
+            {
+                id: 2,
+                title: "Gemeinde-Bibelseminar (GBK)",
+                subtitle: "GBK Mitarbeiter",
+                tags1: ["Organisation", "Kreativität", "Ermutigung", "Helfen"],
+                tags2: [
+                    "Erwachsene",
+                    "Teenager_Jugendliche",
+                    "Neubekehrte",
+                    "Neue_Mitglieder",
+                ],
+                tags3: ["Gemeinde/Köln"],
+                zeit: "1-2h Stunden pro Woche",
+                beschreibung: `Teilnahme an den Seminartagen(1x im Monat Samstags(ganztags)).Mögliche Aufgaben bei den Seminartagen: Aufbauen / Abbauen, Mitarbeit in der Küche, Mikrofon bei Fragen herumreichen, Rückfragen der Schüler beantworten, Beziehung zu den Schülern aufbauen, Technik bedienen.Teilnahme an der GBK Besprechung(1x im Monat Dienstag abend).Mögliche Aufgaben bei den Besprechungen und danach: Schultag reflektieren, Verbesserungsvorschläge machen, Überarbeiten von verschiedenen Dokumenten(Teilnehmerlisten, Kursbeschreibungen), E - Mail Kommunikation mit den Schülern, Einkäufe vor dem Schultag(z.b.Getränke), Skripte Drucken und zum Schultag mitbringen, Konzepte für Werbestrategien erstellen, Hausaufgaben kontrollieren.`,
+                kontakt: "Andreas Ediger",
+                email: "a.ediger@freikirche.koeln",
+            },
+        ],
+        getTagType(tag) {
+            if (filters.gabenFilter.filters.includes(tag)) {
+                return "is-danger";
+            } else if (filters.personenFilter.filters.includes(tag)) {
+                return "is-info";
+            } else if (filters.ortFilter.filters.includes(tag)) {
+                return "is-dark";
+            }
+        },
+        getTags(tagArr) {
+            let html = "";
+            tagArr.forEach((tag) => {
+                html += `<p class="tag ${data.getTagType(tag)}">${tag}</p>`;
+            });
+            return html;
+        },
+        createCardsHTML() {
+            let html = document.getElementById("cardsDiv");
+            this.dienste.forEach((dienst) => {
+                html.innerHTML =
+                    html.innerHTML +
+                    `<div id="card${dienst.id}" class="card">
+                <p class="title">${dienst.title}</p>
+                  <p class="subtitle">${dienst.subtitle} </p>
+                <hr />
+                <div class="tag-container readmore js-read-more" data-rm-words="40">
+                    ${data.getTags(dienst.tags1)}
+                    ${data.getTags(dienst.tags2)}
+                    ${data.getTags(dienst.tags3)}
+                  </div>
+              <hr />
+              <div class="readmore js-read-more" data-rm-words="30">
+                 <p class="text"> Beschreibung</p>
+                   ${dienst.beschreibung}
+              </div>
+              <hr />
+              <div>
+                 <p class="text"> Zeitlicher Einsatz</p>
+                  ${dienst.zeit}
+              </div>
+                <hr />
+              <div>
+               <p class="text">Kontaktperson</p>
+                 ${dienst.kontakt}
+              </div>
+              <hr />
+              <a class="button-send is-info" href="mailto:${dienst.email
+                    }?subject=Dienst ${dienst.title
+                    }&body=Hallo, ich interessiere mich für den Dienst „${dienst.title} - ${dienst.subtitle
+                    }“.%0D%0A%0D%0AMeine persönlichen Infos: (Bitte ergänzen)%0D%0AName:%0D%0AAlter:%0D%0AMailadresse:%0D%0ATelefonnummer:%0D%0AGemeindemitglied seit:">Jetzt Anfragen</a>​
+      </div>`;
+            });
+            let errorHmtl = document.getElementById("errorMsg")
+            errorHmtl.style.display = "none"
+        },
+        isArrayEmpty(filter) {
+            if (typeof filter !== "undefined" && filter.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        filterCard(item, show) {
+            let card = document.getElementById("card" + item.id);
+            if (show) {
+                card.style.display = "block";
+            } else {
+                filters.notFound++;
+                card.style.display = "none";
+            }
+        },
+        filterData() {
+            data.dienste.forEach((item) => {
+                let showCard = false;
+
+                let foundFilter1 = false;
+                let foundFilter2 = false;
+                let foundFilter3 = false;
+
+                let hasFilter1 = data.isArrayEmpty(filters.filter1);
+                let hasFilter2 = data.isArrayEmpty(filters.filter2);
+                let hasFilter3 = data.isArrayEmpty(filters.filter3);
+
+                if (
+                    !hasFilter1 &&
+                    !hasFilter2 &&
+                    !hasFilter3
+                ) {
+                    data.filterCard(item, true);
+                    return;
+                }
+
+                foundFilter1 = item.tags1.some((r) => filters.filter1.includes(r));
+                foundFilter2 = item.tags2.some((r) => filters.filter2.includes(r));
+                foundFilter3 = item.tags3.some((r) => filters.filter3.includes(r));
+
+                if (hasFilter1 && hasFilter2 && hasFilter3) {
+                    if (foundFilter1 && foundFilter2 && hasFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter1 && hasFilter2 && hasFilter3) {
+                    if (foundFilter1 && foundFilter2 && hasFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter1 && hasFilter2 && hasFilter3) {
+                    if (foundFilter1 && foundFilter2 && hasFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter3 && hasFilter2) {
+                    if (foundFilter3 && foundFilter2) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter2 && hasFilter3) {
+                    if (foundFilter2 && foundFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter1 && hasFilter3) {
+                    if (foundFilter1 && foundFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter1 && hasFilter2) {
+                    if (foundFilter1 && foundFilter2) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else if (hasFilter1 || hasFilter2 || hasFilter3) {
+                    if (foundFilter1 || foundFilter2 || foundFilter3) {
+                        showCard = true
+                    } else {
+                        showCard = false
+                    }
+                } else {
+                    showCard = false
+                }
+
+                data.filterCard(item, showCard);
+            });
+
+            let errorHmtl = document.getElementById("errorMsg")
+            if (filters.notFound === data.dienste.length) {
+                errorHmtl.style.display = "block"
+            } else {
+                errorHmtl.style.display = "none"
+            }
+            filters.notFound = 0
+        },
+        filterClicked(f) {
+            let filterHTML = document.getElementById(f);
+            if (filters.gabenFilter.filters.includes(f)) {
+                if (filters.filter1.includes(f)) {
+                    filterHTML.style.backgroundColor = "#A0151F";
+                    filters.filter1 = filters.filter1.filter((e) => e !== f);
+                } else {
+                    filterHTML.style.backgroundColor = "#a9a9a9";
+                    filters.filter1.push(f);
+                }
+            } else if (filters.personenFilter.filters.includes(f)) {
+                if (filters.filter2.includes(f)) {
+                    filterHTML.style.backgroundColor = "#1556a0";
+                    filters.filter2 = filters.filter2.filter((e) => e !== f);
+                } else {
+                    filterHTML.style.backgroundColor = "#a9a9a9";
+                    filters.filter2.push(f);
+                }
+            } else if (filters.ortFilter.filters.includes(f)) {
+                if (filters.filter3.includes(f)) {
+                    filterHTML.style.backgroundColor = "#0f7274";
+                    filters.filter3 = filters.filter3.filter((e) => e !== f);
+                } else {
+                    filterHTML.style.backgroundColor = "#a9a9a9";
+                    filters.filter3.push(f);
+                }
+            }
+            data.filterData(data.dienste);
+        },
+    };
+
+    data.createCardsHTML();
+
+    const ReadMore = (() => {
+        let s;
+
+        return {
+
+            settings() {
+                return {
+                    content: document.querySelectorAll('.js-read-more'),
+                    originalContentArr: [],
+                    truncatedContentArr: [],
+                    moreLink: "Mehr Anzeigen",
+                    lessLink: "Weniger Anzeigen",
+                }
+            },
+
+            init() {
+                s = this.settings();
+                this.bindEvents();
+            },
+
+            bindEvents() {
+                ReadMore.truncateText();
+            },
+
+            /**
+             * Count Words
+             * Helper to handle word count.
+             * @param {string} str - Target content string.
+             */
+            countWords(str) {
+                return str.split(/\s+/).length;
+            },
+
+            /**
+             * Ellpise Content
+             * @param {string} str - content string.
+             * @param {number} wordsNum - Number of words to show before truncation.
+             */
+            ellipseContent(str, wordsNum) {
+                return str.split(/\s+/).slice(0, wordsNum).join(' ') + '...';
+            },
+
+            /**
+             * Truncate Text
+             * Truncate and ellipses contented content
+             * based on specified word count.
+             * Calls createLink() and handleClick() methods.
+             */
+            truncateText() {
+
+                for (let i = 0; i < s.content.length; i++) {
+                    //console.log(s.content)
+                    const originalContent = s.content[i].innerHTML;
+                    const numberOfWords = s.content[i].dataset.rmWords;
+                    const truncateContent = ReadMore.ellipseContent(originalContent, numberOfWords);
+                    const originalContentWords = ReadMore.countWords(originalContent);
+
+                    s.originalContentArr.push(originalContent);
+                    s.truncatedContentArr.push(truncateContent);
+
+                    if (numberOfWords < originalContentWords) {
+                        s.content[i].innerHTML = s.truncatedContentArr[i];
+                        let self = i;
+                        ReadMore.createLink(self)
+                    }
+                }
+                ReadMore.handleClick(s.content);
+            },
+
+            /**
+             * Create Link
+             * Creates and Inserts Read More Link
+             * @param {number} index - index reference of looped item
+             */
+            createLink(index) {
+                const linkWrap = document.createElement('span');
+
+                linkWrap.className = 'read-more__link-wrap';
+
+                linkWrap.innerHTML = `<a id="read-more_${index}" class="read-more__link" style="cursor:pointer;">${s.moreLink}</a>`;
+
+                // Inset created link
+                s.content[index].parentNode.insertBefore(linkWrap, s.content[index].nextSibling);
+
+            },
+
+            /**
+             * Handle Click
+             * Toggle Click eve
+             */
+            handleClick(el) {
+                const readMoreLink = document.querySelectorAll('.read-more__link');
+
+                for (let j = 0, l = readMoreLink.length; j < l; j++) {
+
+                    readMoreLink[j].addEventListener('click', function () {
+
+                        const moreLinkID = this.getAttribute('id');
+                        let index = moreLinkID.split('_')[1];
+
+                        el[index].classList.toggle('is-expanded');
+
+                        if (this.dataset.clicked !== 'true') {
+                            el[index].innerHTML = s.originalContentArr[index];
+                            this.innerHTML = s.lessLink;
+                            this.dataset.clicked = true;
+                        } else {
+                            el[index].innerHTML = s.truncatedContentArr[index];
+                            this.innerHTML = s.moreLink;
+                            this.dataset.clicked = false;
+                        }
+                    });
+                }
+            },
+
+            /**
+             * Open All
+             * Method to expand all instances on the page.
+             */
+            openAll() {
+                const instances = document.querySelectorAll('.read-more__link');
+                for (let i = 0; i < instances.length; i++) {
+                    content[i].innerHTML = s.truncatedContentArr[i];
+                    instances[i].innerHTML = s.moreLink;
+                }
+            }
+        }
+    })();
+
+    ReadMore.init()
+</script>
+
+
+</html>
